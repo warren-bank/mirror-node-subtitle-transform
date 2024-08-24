@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import minimist from 'minimist';
-import { readFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'fs';
 import { ParserFn, GeneratorFn } from './types';
 import { parse as parseVTT } from './parsers/vtt';
 import { parse as parseTT } from './parsers/tt';
@@ -88,7 +88,10 @@ function run() {
     generatorOpts
   );
 
-  process.stdout.write(output);
+  if (argv.output)
+    writeFileSync(argv.output, output, 'utf8');
+  else
+    process.stdout.write(output);
 }
 
 run();
