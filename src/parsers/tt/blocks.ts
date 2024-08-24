@@ -18,7 +18,7 @@ const mapRange = (attrs: Attrs): TimestampRange => {
     throw new Error('Missing timestamps on cue');
   }
 
-  const re = /(\d\d):(\d\d):(\d\d)\.(\d\d)/;
+  const re = /(?:(\d\d):)?(\d\d):(\d\d)(?:\.(\d\d))?/;
 
   const beginMatch = begin.match(re);
   const endMatch = end.match(re);
@@ -29,10 +29,10 @@ const mapRange = (attrs: Attrs): TimestampRange => {
 
   const mapMatch = (group: RegExpMatchArray) => {
     return {
-      hours: parseInt(group[1], 10),
-      minutes: parseInt(group[2], 10),
-      seconds: parseInt(group[3], 10),
-      milliseconds: parseInt(group[4], 10) * 10,
+      hours:        (group[1] === undefined) ? 0 : parseInt(group[1], 10),
+      minutes:                                     parseInt(group[2], 10),
+      seconds:                                     parseInt(group[3], 10),
+      milliseconds: (group[4] === undefined) ? 0 : parseInt(group[4], 10) * 10,
     }
   }
 
